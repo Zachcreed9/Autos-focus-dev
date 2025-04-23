@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Auto-Focus",
+  "description": "Améliore votre productivité en bloquant les sites distrayants et en auto-focalisant sur les éléments importants.",
+  "version": "1.3.0",
+  "author": "Lescreeds",
+  "permissions": ["storage", "tabs", "activeTab", "notifications", "contextMenus"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup-modern.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "commands": {
+    "toggle-focus": {
+      "suggested_key": {
+        "default": "Alt+F"
+      },
+      "description": "Activer/Désactiver l'auto-focus sur la page actuelle"
+    },
+    "start-pomodoro": {
+      "suggested_key": {
+        "default": "Alt+P"
+      },
+      "description": "Démarrer une session Pomodoro pour booster votre concentration"
+    },
+    "block-current-site": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "Ajouter le site actuel à la liste des sites bloqués"
+    },
+    "whitelist-current-site": {
+      "suggested_key": {
+        "default": "Alt+W"
+      },
+      "description": "Ajouter le site actuel à la liste blanche pour y accéder facilement"
+    },
+    "open-options": {
+      "description": "Ouvrir la page des options avancées pour personnaliser l'extension"
+    }
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "chart.min.js", "gamification.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

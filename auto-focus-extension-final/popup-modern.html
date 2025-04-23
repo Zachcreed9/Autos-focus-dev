@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Focus</title>
+  <link rel="stylesheet" href="styles-modern.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-img" width="36" height="36" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="128" height="128" rx="16" fill="var(--primary)"/>
+          <circle cx="64" cy="64" r="32" fill="white"/>
+          <circle cx="64" cy="64" r="16" fill="var(--primary)"/>
+          <path d="M16 64C16 37.4903 37.4903 16 64 16" stroke="white" stroke-width="8" stroke-linecap="round"/>
+          <path d="M112 64C112 90.5097 90.5097 112 64 112" stroke="white" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">Auto-Focus</span>
+      </div>
+      <span class="version">v1.3.0</span>
+    </header>
+
+    <!-- Main Controls -->
+    <section class="controls">
+      <label class="switch">
+        <span class="switch-label">Activer l'extension</span>
+        <input type="checkbox" id="toggle-extension" checked>
+        <span class="slider"></span>
+      </label>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab-nav active" data-tab="sites">Sites bloqués</button>
+      <button class="tab-nav" data-tab="whitelist">Liste blanche</button>
+      <button class="tab-nav" data-tab="settings">Paramètres</button>
+      <button class="tab-nav" data-tab="stats">Statistiques</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <main class="tab-content-container">
+      <!-- Blocked Sites Tab -->
+      <section id="sites-tab" class="tab-content active">
+        <div class="card">
+          <header class="card-title">
+            <h3>🚫 Ajouter un site à bloquer</h3>
+          </header>
+          <form id="add-site-form" class="add-form">
+            <input type="text" id="site-input" placeholder="exemple.com" autocomplete="off">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </form>
+          <p class="text-muted">Astuce: Utilisez Alt+B pour bloquer rapidement le site actuel</p>
+        </div>
+
+        <div class="card">
+          <header class="card-title">
+            <h3>📋 Catégories prédéfinies</h3>
+          </header>
+          <div class="category-chips">
+            <button class="category-chip" data-category="social">Réseaux sociaux</button>
+            <button class="category-chip" data-category="video">Vidéos</button>
+            <button class="category-chip" data-category="news">Actualités</button>
+            <button class="category-chip" data-category="games">Jeux</button>
+            <button class="category-chip" data-category="shopping">Shopping</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <header class="card-title">
+            <h3>🔒 Sites bloqués</h3>
+          </header>
+          <div id="blocked-sites-list" class="list">
+            <!-- Dynamically generated list -->
+            <div class="empty-state">
+              <p>Ajoutez des sites à bloquer pour rester concentré</p>
+              <button class="btn btn-secondary" id="add-current-site">➕ Ajouter le site actuel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Whitelist Tab -->
+      <section id="whitelist-tab" class="tab-content">
+        <div class="card">
+          <header class="card-title">
+            <h3>✅ Ajouter un site autorisé</h3>
+          </header>
+          <form id="add-whitelist-form" class="add-form">
+            <input type="text" id="whitelist-input" placeholder="exemple.com" autocomplete="off">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </form>
+          <p class="text-muted">Astuce: Utilisez Alt+W pour ajouter rapidement le site actuel à la liste blanche</p>
+        </div>
+
+        <div class="card">
+          <header class="card-title">
+            <h3>📋 Sites autorisés</h3>
+          </header>
+          <div id="whitelist-sites-list" class="list">
+            <!-- Dynamically generated whitelist -->
+            <div class="empty-state">
+              <p>Ajoutez des sites à la liste blanche pour qu'ils soient toujours accessibles</p>
+              <button class="btn btn-secondary" id="whitelist-current-site">➕ Ajouter le site actuel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings Tab -->
+      <section id="settings-tab" class="tab-content">
+        <div class="card">
+          <header class="card-title">
+            <h3>⏰ Planification</h3>
+          </header>
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="schedule-enabled">
+              <span class="checkmark"></span>
+              Activer la planification horaire
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Statistics Tab -->
+      <section id="stats-tab" class="tab-content">
+        <div class="card">
+          <header class="card-title">
+            <h3>📊 Statistiques</h3>
+          </header>
+          <div class="chart-container">
+            <canvas id="productivity-chart"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 LesCreeds</p>
+      <p><a href="#" id="privacy-link">Confidentialité</a> | <a href="#" id="help-link">Aide</a></p>
+    </footer>
+  </div>
+
+  <!-- Modals -->
+  <div id="time-range-modal" class="modal">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h3>Plage horaire</h3>
+        <button class="close-modal">&times;</button>
+      </header>
+      <div class="modal-body">
+        <label for="time-range-name">Nom</label>
+        <input type="text" id="time-range-name" placeholder="Ex: Matinée">
+      </div>
+      <footer class="modal-footer">
+        <button class="btn btn-secondary">Annuler</button>
+        <button class="btn btn-primary">Enregistrer</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="popup-modern.js"></script>
+</body>
+</html>
